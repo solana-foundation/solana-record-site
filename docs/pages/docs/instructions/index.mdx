@@ -8,16 +8,26 @@ This section documents all available instructions in the Solana Record System SD
 |-------------|-------------|
 | [Create Record](./create-record) | Creates a new record under a class |
 | [Update Record](./update-record) | Updates an existing record's data |
-| [Burn Record](./burn-record) | Permanently deletes a record |
-| [Burn Tokenized Record](./burn-tokenized-record) | Burns a tokenized record and its associated token |
+| [Delete Record](./delete-record) | Permanently deletes a record |
+| [Freeze Record](./freeze-record) | Freezes or thaws a record |
+| [Transfer Record](./transfer-record) | Transfers ownership of a record |
+
+## Tokenized Record Instructions
+
+| Instruction | Description |
+|-------------|-------------|
+| [Mint Tokenized Record](./mint-tokenized-record) | Mints a token for an existing record |
+| [Update Tokenized Record](./update-tokenized-record) | Updates a tokenized record's data |
+| [Freeze Tokenized Record](./freeze-tokenized-record) | Freezes or thaws a tokenized record |
+| [Transfer Tokenized Record](./transfer-tokenized-record) | Transfers a tokenized record |
+| [Burn Tokenized Record](./burn-tokenized-record) | Burns a tokenized record |
 
 ## Class Instructions
 
 | Instruction | Description |
 |-------------|-------------|
 | [Create Class](./create-class) | Creates a new class |
-| [Update Class](./update-class) | Updates an existing class's metadata |
-| [Burn Class](./burn-class) | Permanently deletes a class |
+| [Update Class Metadata](./update-class-metadata) | Updates a class's metadata |
 
 ## Common Parameters
 
@@ -27,22 +37,7 @@ Most instructions share common parameters:
 - `authority`: The account that has control over the record/class
 - `options?`: Optional RPC options for the transaction
 
-## Usage Example
-
-```typescript
-import { getCreateRecordInstruction } from "srs-lib";
-
-// Create a record instruction
-const instruction = getCreateRecordInstruction({
-    payer: payer,
-    authority: authority,
-    class: classPublicKey,
-    // ... other parameters
-});
-```
-
 ## Next Steps
 
-- Learn about [Records](../records/typescript)
-- Learn about [Classes](../classes/typescript)
-- View the [API Reference](../api) 
+- Learn about [Records](../records)
+- Learn about [Classes](../classes)
