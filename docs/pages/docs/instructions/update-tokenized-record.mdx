@@ -1,0 +1,64 @@
+# Update Tokenized Record
+
+Updates the data of a tokenized record while preserving its token and other properties.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `mint` | `PublicKey \| Pda` | The mint account for the tokenized record |
+| `tokenAccount` | `PublicKey \| Pda` | The token account holding the tokenized record |
+| `record` | `PublicKey \| Pda` | The record account associated with the tokenized record |
+| `token2022?` | `PublicKey \| Pda` | Optional Token2022 Program account |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+| `newData` | `string` | New serialized data for the tokenized record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { updateTokenizedRecord } from "srs-lib";
+
+const transaction = updateTokenizedRecord(context, {
+    authority: authority,
+    mint: mintPublicKey,
+    tokenAccount: tokenAccountPublicKey,
+    record: recordPublicKey,
+    token2022: token2022ProgramPublicKey,
+    class: classPublicKey, // Optional, but recommended for permissioned classes
+    newData: JSON.stringify({
+        title: "Updated Tokenized Record",
+        description: "Updated tokenized record description",
+        // Additional data fields conforming to the class schema
+    })
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- The tokenized record must not be frozen
+- The new data must conform to the schema defined in the record's class
+- The data must be properly serialized
+- The record's token and ownership remain unchanged
+- The token account must hold exactly one token
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+- This operation can be performed multiple times
+- The data update is permanent and cannot be undone
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Token2022 Program Documentation](https://spl.solana.com/token-2022)
+- [Mint Tokenized Record](./mint-tokenized-record)
+- [Freeze Tokenized Record](./freeze-tokenized-record)
+- [Transfer Tokenized Record](./transfer-tokenized-record)
+- [Burn Tokenized Record](./burn-tokenized-record) 

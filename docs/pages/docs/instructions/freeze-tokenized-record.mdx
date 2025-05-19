@@ -1,0 +1,72 @@
+# Freeze Tokenized Record
+
+Freezes or thaws a tokenized record, controlling whether its associated token can be transferred.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `mint` | `PublicKey \| Pda` | The mint account for the tokenized record |
+| `tokenAccount` | `PublicKey \| Pda` | The token account holding the tokenized record |
+| `record` | `PublicKey \| Pda` | The record account associated with the tokenized record |
+| `token2022?` | `PublicKey \| Pda` | Optional Token2022 Program account |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+| `isFrozen` | `boolean` | Whether to freeze (true) or thaw (false) the tokenized record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { freezeTokenizedRecord } from "srs-lib";
+
+// Freeze a tokenized record
+const freezeTransaction = freezeTokenizedRecord(context, {
+    authority: authority,
+    mint: mintPublicKey,
+    tokenAccount: tokenAccountPublicKey,
+    record: recordPublicKey,
+    token2022: token2022ProgramPublicKey,
+    class: classPublicKey, // Optional, but recommended for permissioned classes
+    isFrozen: true
+});
+
+// Send the transaction
+await freezeTransaction.sendAndConfirm();
+
+// Later, thaw the tokenized record
+const thawTransaction = freezeTokenizedRecord(context, {
+    authority: authority,
+    mint: mintPublicKey,
+    tokenAccount: tokenAccountPublicKey,
+    record: recordPublicKey,
+    token2022: token2022ProgramPublicKey,
+    class: classPublicKey,
+    isFrozen: false
+});
+
+// Send the transaction
+await thawTransaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- When a tokenized record is frozen, its token cannot be transferred
+- The record's data can still be updated unless the record itself is frozen
+- The freeze state can be toggled at any time by the appropriate authority
+- This operation is reversible (a frozen tokenized record can be thawed)
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+- The token account must hold exactly one token
+- The record must be associated with the token
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Token2022 Program Documentation](https://spl.solana.com/token-2022)
+- [Freeze Record](./freeze-record)
+- [Burn Tokenized Record](./burn-tokenized-record) 

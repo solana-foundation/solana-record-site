@@ -1,0 +1,50 @@
+# Burn Tokenized Record
+
+Burns a tokenized record, which permanently removes both the token and its associated record from the blockchain.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `mint` | `PublicKey \| Pda` | The mint account for the tokenized record |
+| `tokenAccount` | `PublicKey \| Pda` | The token account holding the tokenized record |
+| `record` | `PublicKey \| Pda` | The record account associated with the tokenized record |
+| `token2022?` | `PublicKey \| Pda` | Optional Token2022 Program account |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { burnTokenizedRecord } from "srs-lib";
+
+const transaction = burnTokenizedRecord(context, {
+    authority: authority,
+    mint: mintPublicKey,
+    tokenAccount: tokenAccountPublicKey,
+    record: recordPublicKey,
+    token2022: token2022ProgramPublicKey,
+    class: classPublicKey
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- This operation is permanent and cannot be undone
+- Both the token and its associated record will be removed from the blockchain
+- The token account must hold exactly one token
+- The record must be associated with the token
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Token2022 Program Documentation](https://spl.solana.com/token-2022) 

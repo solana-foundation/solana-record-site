@@ -1,0 +1,50 @@
+# Transfer Record
+
+Transfers ownership of a record to a new owner.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `record` | `PublicKey \| Pda` | The record account to be transferred |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+| `newOwner` | `PublicKey` | The public key of the new owner |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { transferRecord } from "srs-lib";
+
+const transaction = transferRecord(context, {
+    authority: authority,
+    record: recordPublicKey,
+    class: classPublicKey, // Optional, but recommended for permissioned classes
+    newOwner: newOwnerPublicKey
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the current record owner or the class authority (for permissioned classes)
+- The new owner will have full control over the record after transfer
+- The record's data remains unchanged during transfer
+- If the record is tokenized, the token must be transferred separately
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+- The transfer is permanent and cannot be undone
+- The new owner must be a valid Solana account
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Create Record](./create-record)
+- [Update Record](./update-record)
+- [Delete Record](./delete-record) 
