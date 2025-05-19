@@ -38,20 +38,8 @@ export default defineConfig({
         //             text: "Creating a Record",
         //             link: "/docs/guides/creating-a-record",
         //         },
-        //         {
-        //             text: "Updating a Record",
-        //             link: "/docs/guides/updating-a-record",
-        //         },
-        //         {
-        //             text: "Burning a Record",
-        //             link: "/docs/guides/deleting-a-record",
-        //         },
-        //         {
-        //             text: "Fetching a record",
-        //             link: "/docs/guides/fetching-a-record",
-        //         },
-        //     ],
-        // }
+        //     ]
+        // },
         {
             text: "Classes",
             link: "/docs/classes"
