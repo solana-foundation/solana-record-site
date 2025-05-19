@@ -2,7 +2,7 @@ import { defineConfig } from 'vocs'
 
 export default defineConfig({
     title: 'SRS',
-    description: 'Documentation for the Solana Record Servie',
+    description: 'Documentation for the Solana Record Service',
     font: {
         default: {
             google: 'Geist Mono',
