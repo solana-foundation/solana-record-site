@@ -1,0 +1,47 @@
+# Class
+
+A class is a template that defines the structure and behavior of records that can be created under it.
+
+## Structure
+
+### Typescript
+
+```typescript
+export type ClassAccountData = {
+    discriminator: number;
+    authority: PublicKey;
+    isPermissioned: boolean;
+    isFrozen: boolean;
+    name: string;
+    metadata: string;
+};
+```
+
+### Rust
+
+```rust
+#[repr(C)]
+pub struct Class<'info> {
+    /// The authority that controls this class
+    pub authority: Pubkey,
+    /// Whether creating records is permissioned or not
+    pub is_permissioned: bool,
+    /// Whether the class is frozen or not
+    pub is_frozen: bool,
+    /// Human-readable name for the class
+    pub name: &'info str,
+    /// Optional metadata about the class
+    pub metadata: &'info str,
+}
+```
+
+## Methods
+
+### Typescript
+
+
+### Rust
+
+The rust program exposes crud operation methods for making changes to classes
+
+

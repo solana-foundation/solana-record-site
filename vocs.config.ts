@@ -26,35 +26,39 @@ export default defineConfig({
         },
       ],
     sidebar: [
+        // {
+        //     text: "Guides",
+        //     collapsed: false,
+        //     items: [
+        //         {
+        //             text: "Creating a Class",
+        //             link: "/docs/guides/creating-a-class",
+        //         },
+        //         {
+        //             text: "Creating a Record",
+        //             link: "/docs/guides/creating-a-record",
+        //         },
+        //         {
+        //             text: "Updating a Record",
+        //             link: "/docs/guides/updating-a-record",
+        //         },
+        //         {
+        //             text: "Burning a Record",
+        //             link: "/docs/guides/deleting-a-record",
+        //         },
+        //         {
+        //             text: "Fetching a record",
+        //             link: "/docs/guides/fetching-a-record",
+        //         },
+        //     ],
+        // }
         {
-            text: 'Getting Started',
-            link: '/docs',
+            text: "Class",
+            link: "/docs/class",
         },
         {
-            text: "Guides",
-            collapsed: false,
-            items: [
-                {
-                    text: "Creating a Class",
-                    link: "/docs/guides/creating-a-class",
-                },
-                {
-                    text: "Creating a Record",
-                    link: "/docs/guides/creating-a-record",
-                },
-                {
-                    text: "Updating a Record",
-                    link: "/docs/guides/updating-a-record",
-                },
-                {
-                    text: "Burning a Record",
-                    link: "/docs/guides/deleting-a-record",
-                },
-                {
-                    text: "Fetching a record",
-                    link: "/docs/guides/fetching-a-record",
-                },
-            ],
-        }
+            text: "Record",
+            link: "/docs/record",
+        },
     ],
 })

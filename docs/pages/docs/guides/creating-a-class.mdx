@@ -1,1 +1,85 @@
 # Creating a Class
+
+This guide will show you how to create a class using the `srs-lib` SDK. A class is a template that defines the structure and behavior of records that can be created under it.
+
+## Prerequisites
+
+- Node.js installed
+- A Solana wallet with SOL for transaction fees
+- Access to a Solana RPC endpoint
+
+## Installation
+
+First, install the required dependencies:
+
+```bash
+npm install srs-lib @solana/kit @solana/signers bs58
+```
+
+## Structure
+
+```typescript
+export type ClassAccountData = {
+    discriminator: number;
+    authority: PublicKey;
+    isPermissioned: boolean;
+    isFrozen: boolean;
+    name: string;
+    metadata: string;
+};
+```
+
+```
+
+## Explanation
+
+Let's break down the key components of creating a class:
+
+1. **Initialization**: We set up the Solana client with RPC and WebSocket connections.
+
+2. **Keypairs**: We create keypairs for:
+   - `payer`: The account that will pay for the transaction
+   - `authority`: The account that will have control over the class
+
+3. **Class Input**: We define the class data including:
+   - `payer`: The account that will pay for the transaction
+   - `authority`: The account that will have control over the class
+   - `name`: The name of the class
+   - `description`: A description of the class
+   - `schema`: A JSON Schema that defines the structure of records that can be created under this class
+
+4. **Transaction Creation**:
+   - Create the class instruction
+   - Get the latest blockhash
+   - Create and configure the transaction message
+   - Sign the transaction
+   - Send and confirm the transaction
+
+## Schema Definition
+
+The schema is a crucial part of class creation as it defines:
+- The structure of records that can be created under this class
+- The data types and validation rules for each field
+- Required and optional fields
+- Nested object structures
+- Array types and their item types
+
+## Error Handling
+
+The code includes basic error handling that will:
+- Log any errors that occur during the class creation process
+- Throw the error for further handling if needed
+
+## Important Notes
+
+- The class authority will have control over all records created under this class
+- The schema cannot be modified after class creation
+- Records created under this class must conform to the defined schema
+- The class name should be unique within your application
+
+## Next Steps
+
+After creating a class, you might want to:
+- [Create a record](./creating-a-record) under this class
+- [Fetch a record](./fetching-a-record) to verify the class structure
+- Update or burn records under this class
