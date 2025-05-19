@@ -1,0 +1,89 @@
+# Classes
+
+A class is a template that defines the structure and behavior of records that can be created under it. A class allows developers to create "namespaces" of different types of namespcaes including social media handles and ICANN-compliant gTLDs. The class account defines a namespace for a record. Classes can be permissionless (anyone can create a record) or permissioned. Classes can represent categories like TLDs or record types. Basic classes will be initialized during program creation.
+
+## Structure
+
+The Class struct represents a class in the Solana Record System. Each class defines a template for records that can be created under it.
+
+## Type Definitions
+
+### ClassAccountDataArgs
+
+```typescript
+export type ClassAccountDataArgs = {
+    authority: PublicKey;     // Authority public key
+    isPermissioned: boolean;  // Permission status
+    isFrozen: boolean;        // Frozen status
+    name: string;            // Class name
+    metadata: string;        // Class metadata
+};
+```
+
+## Methods
+
+### Fetching Classes
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `fetchClass` | Fetches a single class by its public key | `context`: RPC context, `publicKey`: Class's public key, `options?`: RPC options | `Promise<Class>` |
+| `safeFetchClass` | Safely fetches a class, returns null if not found | `context`: RPC context, `publicKey`: Class's public key, `options?`: RPC options | `Promise<Class \| null>` |
+| `fetchAllClass` | Fetches multiple classes by their public keys | `context`: RPC context, `publicKeys`: Array of class public keys, `options?`: RPC options | `Promise<Class[]>` |
+| `safeFetchAllClass` | Safely fetches multiple classes, skips not found | `context`: RPC context, `publicKeys`: Array of class public keys, `options?`: RPC options | `Promise<Class[]>` |
+
+### Serialization
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `getClassAccountDataSerializer` | Gets the serializer for class account data | None | `Serializer<ClassAccountDataArgs, ClassAccountData>` |
+| `deserializeClass` | Deserializes raw account data into a Class | `rawAccount`: Raw RPC account data | `Class` |
+
+### Program Interaction
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `getClassGpaBuilder` | Gets a GPA builder for querying classes | `context`: RPC and programs context | `GpaBuilder<Class, {...}>` |
+
+## Usage Examples
+
+### Fetching a Single Class
+
+```typescript
+const class = await fetchClass(rpc, classPublicKey);
+console.log('Class name:', class.name);
+```
+
+### Fetching Multiple Classes
+
+```typescript
+const classes = await fetchAllClass(rpc, [class1PublicKey, class2PublicKey]);
+classes.forEach(class => console.log('Class:', class.name));
+```
+
+### Safe Fetching
+
+```typescript
+const class = await safeFetchClass(rpc, classPublicKey);
+if (class) {
+    console.log('Class found:', class.name);
+} else {
+    console.log('Class not found');
+}
+```
+
+### Using GPA Builder
+
+```typescript
+const gpaBuilder = getClassGpaBuilder(context);
+const classes = await gpaBuilder
+    .where('authority', authorityPublicKey)
+    .get();
+```
+
+## Important Notes
+
+- The `discriminator` field is used internally and should not be modified
+- The `authority` field determines who has control over the class
+- `isPermissioned` determines if records under this class require special permissions
+- Classes can be frozen to prevent modifications
+- The `metadata` field contains serialized data that must be deserialized according to your application's schema

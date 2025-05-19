@@ -1,0 +1,58 @@
+# Transfer Tokenized Record
+
+Transfers a tokenized record from one token account to another.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `mint` | `PublicKey \| Pda` | The mint account for the tokenized record |
+| `tokenAccount` | `PublicKey \| Pda` | The source token account holding the tokenized record |
+| `newTokenAccount` | `PublicKey \| Pda` | The destination token account that will receive the tokenized record |
+| `record` | `PublicKey \| Pda` | The record account associated with the tokenized record |
+| `token2022?` | `PublicKey \| Pda` | Optional Token2022 Program account |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { transferTokenizedRecord } from "srs-lib";
+
+const transaction = transferTokenizedRecord(context, {
+    authority: authority,
+    mint: mintPublicKey,
+    tokenAccount: sourceTokenAccountPublicKey,
+    newTokenAccount: destinationTokenAccountPublicKey,
+    record: recordPublicKey,
+    token2022: token2022ProgramPublicKey,
+    class: classPublicKey // Optional, but recommended for permissioned classes
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- The tokenized record must not be frozen
+- The source token account must hold exactly one token
+- The destination token account must be owned by the recipient
+- The record's data remains unchanged during transfer
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+- The transfer is permanent and cannot be undone
+- The record ownership is automatically transferred to the new token account owner
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Token2022 Program Documentation](https://spl.solana.com/token-2022)
+- [Freeze Tokenized Record](./freeze-tokenized-record)
+- [Burn Tokenized Record](./burn-tokenized-record)
+- [Transfer Record](./transfer-record) 

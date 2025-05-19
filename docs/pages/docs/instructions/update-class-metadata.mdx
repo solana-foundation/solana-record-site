@@ -1,0 +1,54 @@
+# Update Class Metadata
+
+Updates the metadata of an existing class while preserving its schema and other properties.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The authority that has control over the class |
+| `class` | `PublicKey \| Pda` | The class account to be updated |
+| `systemProgram?` | `PublicKey \| Pda` | Optional System Program account |
+| `metadata` | `string` | New serialized metadata for the class |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { updateClassMetadata } from "srs-lib";
+
+const transaction = updateClassMetadata(context, {
+    authority: authority,
+    class: classPublicKey,
+    systemProgram: systemProgramPublicKey,
+    metadata: JSON.stringify({
+        description: "Updated class description",
+        version: "2.0",
+        // Additional metadata fields
+    })
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- Only the class authority can update the class metadata
+- The class schema cannot be modified through this instruction
+- The metadata must be properly serialized
+- Existing records in the class are not affected by metadata updates
+- The class's permission and freeze states remain unchanged
+- This operation can be performed multiple times
+- The metadata update is permanent and cannot be undone
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Create Class](./create-class)
+- [Freeze Class](./freeze-class)
+- [System Program Documentation](https://docs.solana.com/developing/runtime-facilities/programs#system-program) 

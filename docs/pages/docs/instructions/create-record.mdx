@@ -1,0 +1,59 @@
+# Create Record
+
+Creates a new record under a specified class with the provided data and metadata.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `owner` | `Signer` | The owner of the new record |
+| `class` | `PublicKey \| Pda` | The class account under which the record will be created |
+| `record` | `PublicKey \| Pda` | The record account to be created |
+| `systemProgram?` | `PublicKey \| Pda` | Optional System Program account |
+| `authority?` | `Signer` | Optional authority required for permissioned classes |
+| `expiration` | `number \| bigint` | Unix timestamp when the record expires (0 for no expiration) |
+| `name` | `string` | The name of the record |
+| `data` | `string` | Serialized data for the record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { createRecord } from "srs-lib";
+
+const transaction = createRecord(context, {
+    owner: owner,
+    class: classPublicKey,
+    record: recordPublicKey,
+    systemProgram: systemProgramPublicKey,
+    authority: authority, // Required if class is permissioned
+    expiration: 0, // No expiration
+    name: "Example Record",
+    data: JSON.stringify({
+        title: "My Record",
+        description: "This is an example record",
+        // Additional data conforming to the class schema
+    })
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The record's data must conform to the schema defined in its class
+- For permissioned classes, the authority must be provided and must be the class authority
+- The record owner will have control over the record and can update or burn it
+- The expiration timestamp is optional (use 0 for no expiration)
+- The record name should be unique within its class
+- The data must be properly serialized according to the class schema
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [System Program Documentation](https://docs.solana.com/developing/runtime-facilities/programs#system-program) 

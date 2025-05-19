@@ -1,0 +1,60 @@
+# Freeze Record
+
+Freezes or thaws a record, controlling whether its data can be updated.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `record` | `PublicKey \| Pda` | The record account to be frozen or thawed |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+| `isFrozen` | `boolean` | Whether to freeze (true) or thaw (false) the record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { freezeRecord } from "srs-lib";
+
+// Freeze a record
+const freezeTransaction = freezeRecord(context, {
+    authority: authority,
+    record: recordPublicKey,
+    class: classPublicKey, // Optional, but recommended for permissioned classes
+    isFrozen: true
+});
+
+// Send the transaction
+await freezeTransaction.sendAndConfirm();
+
+// Later, thaw the record
+const thawTransaction = freezeRecord(context, {
+    authority: authority,
+    record: recordPublicKey,
+    class: classPublicKey,
+    isFrozen: false
+});
+
+// Send the transaction
+await thawTransaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- When a record is frozen, its data cannot be updated
+- A frozen record can still be deleted
+- The freeze state can be toggled at any time by the appropriate authority
+- This operation is reversible (a frozen record can be thawed)
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Update Record](./update-record)
+- [Delete Record](./delete-record) 

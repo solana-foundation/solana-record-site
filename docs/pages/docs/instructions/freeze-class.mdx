@@ -1,0 +1,55 @@
+# Freeze Class
+
+Freezes or thaws a class, controlling whether new records can be created under it.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The authority that has control over the class |
+| `class` | `PublicKey \| Pda` | The class account to be frozen or thawed |
+| `isFrozen` | `boolean` | Whether to freeze (true) or thaw (false) the class |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { freezeClass } from "srs-lib";
+
+// Freeze a class
+const freezeTransaction = freezeClass(context, {
+    authority: authority,
+    class: classPublicKey,
+    isFrozen: true
+});
+
+// Send the transaction
+await freezeTransaction.sendAndConfirm();
+
+// Later, thaw the class
+const thawTransaction = freezeClass(context, {
+    authority: authority,
+    class: classPublicKey,
+    isFrozen: false
+});
+
+// Send the transaction
+await thawTransaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- Only the class authority can freeze or thaw a class
+- When a class is frozen, no new records can be created under it
+- Existing records in a frozen class can still be updated or deleted
+- The freeze state can be toggled at any time by the class authority
+- This operation is reversible (a frozen class can be thawed)
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Create Class](./create-class) 

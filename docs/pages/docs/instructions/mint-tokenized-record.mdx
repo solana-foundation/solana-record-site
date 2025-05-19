@@ -1,0 +1,62 @@
+# Mint Tokenized Record
+
+Mints a token for an existing record, creating a tokenized record that can be transferred.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `owner` | `PublicKey \| Pda` | The owner of the record |
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `record` | `PublicKey \| Pda` | The record account to be tokenized |
+| `mint` | `PublicKey \| Pda` | The mint account for the tokenized record |
+| `tokenAccount` | `PublicKey \| Pda` | The token account that will hold the tokenized record |
+| `associatedTokenProgram?` | `PublicKey \| Pda` | Optional Associated Token Program account |
+| `token2022?` | `PublicKey \| Pda` | Optional Token2022 Program account |
+| `systemProgram?` | `PublicKey \| Pda` | Optional System Program account |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { mintTokenizedRecord } from "srs-lib";
+
+const transaction = mintTokenizedRecord(context, {
+    owner: ownerPublicKey,
+    authority: authority,
+    record: recordPublicKey,
+    mint: mintPublicKey,
+    tokenAccount: tokenAccountPublicKey,
+    associatedTokenProgram: associatedTokenProgramPublicKey,
+    token2022: token2022ProgramPublicKey,
+    systemProgram: systemProgramPublicKey,
+    class: classPublicKey // Optional, but recommended for permissioned classes
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- The record must not already be tokenized
+- The mint account must be initialized and configured for tokenization
+- The token account will be created if it doesn't exist
+- Only one token will be minted per record
+- The token can be transferred to other accounts after minting
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+- The record's data can still be updated after tokenization
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Token2022 Program Documentation](https://spl.solana.com/token-2022)
+- [Associated Token Program Documentation](https://spl.solana.com/associated-token-account)
+- [Freeze Tokenized Record](./freeze-tokenized-record)
+- [Burn Tokenized Record](./burn-tokenized-record) 

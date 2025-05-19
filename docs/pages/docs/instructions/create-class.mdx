@@ -1,0 +1,59 @@
+# Create Class
+
+Creates a new class that defines a template for records that can be created under it.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The authority that will have control over the class |
+| `class` | `PublicKey \| Pda` | The new class account to be initialized |
+| `systemProgram?` | `PublicKey \| Pda` | Optional System Program account |
+| `isPermissioned` | `boolean` | Whether records under this class require special permissions |
+| `isFrozen` | `boolean` | Whether the class is initially frozen |
+| `name` | `string` | The name of the class |
+| `metadata` | `string` | Serialized metadata for the class |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { createClass } from "srs-lib";
+
+const transaction = createClass(context, {
+    authority: authority,
+    class: classPublicKey,
+    systemProgram: systemProgramPublicKey,
+    isPermissioned: true,
+    isFrozen: false,
+    name: "Example Class",
+    metadata: JSON.stringify({
+        description: "This is an example class",
+        schema: {
+            title: { type: "string" },
+            description: { type: "string" }
+        }
+    })
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority will have control over all records created under this class
+- The class name should be unique within your application
+- The metadata should contain a valid schema that defines the structure of records
+- Once created, the class's schema cannot be modified
+- Records created under this class must conform to the defined schema
+- If `isPermissioned` is true, only the class authority can create records
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [System Program Documentation](https://docs.solana.com/developing/runtime-facilities/programs#system-program) 

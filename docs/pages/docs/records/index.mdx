@@ -1,0 +1,92 @@
+# Record
+
+A record is an instance of a class. It is created under a class and contains the data for that record.
+
+## Structure
+
+The Record struct represents a record in the Solana Record System. Each record contains metadata and data associated with a specific class.
+
+## Type Definitions
+
+### RecordAccountDataArgs
+
+```typescript
+export type RecordAccountDataArgs = {
+    class: PublicKey;         // Class public key
+    owner: PublicKey;         // Owner public key
+    isFrozen: boolean;        // Frozen status
+    expiry: number | bigint;  // Expiry timestamp
+    name: string;            // Record name
+    data: string;            // Record data
+};
+```
+
+## Methods
+
+### Fetching Records
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `fetchRecord` | Fetches a single record by its public key | `context`: RPC context, `publicKey`: Record's public key, `options?`: RPC options | `Promise<Record>` |
+| `safeFetchRecord` | Safely fetches a record, returns null if not found | `context`: RPC context, `publicKey`: Record's public key, `options?`: RPC options | `Promise<Record \| null>` |
+| `fetchAllRecord` | Fetches multiple records by their public keys | `context`: RPC context, `publicKeys`: Array of record public keys, `options?`: RPC options | `Promise<Record[]>` |
+| `safeFetchAllRecord` | Safely fetches multiple records, skips not found | `context`: RPC context, `publicKeys`: Array of record public keys, `options?`: RPC options | `Promise<Record[]>` |
+
+### Serialization
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `getRecordAccountDataSerializer` | Gets the serializer for record account data | None | `Serializer<RecordAccountDataArgs, RecordAccountData>` |
+| `deserializeRecord` | Deserializes raw account data into a Record | `rawAccount`: Raw RPC account data | `Record` |
+
+### Program Interaction
+
+| Method | Description | Parameters | Returns |
+|--------|-------------|------------|---------|
+| `getRecordGpaBuilder` | Gets a GPA builder for querying records | `context`: RPC and programs context | `GpaBuilder<Record, {...}>` |
+
+## Usage Examples
+
+### Fetching a Single Record
+
+```typescript
+const record = await fetchRecord(rpc, recordPublicKey);
+console.log('Record data:', record.data);
+```
+
+### Fetching Multiple Records
+
+```typescript
+const records = await fetchAllRecord(rpc, [record1PublicKey, record2PublicKey]);
+records.forEach(record => console.log('Record:', record.name));
+```
+
+### Safe Fetching
+
+```typescript
+const record = await safeFetchRecord(rpc, recordPublicKey);
+if (record) {
+    console.log('Record found:', record.name);
+} else {
+    console.log('Record not found');
+}
+```
+
+### Using GPA Builder
+
+```typescript
+const gpaBuilder = getRecordGpaBuilder(context);
+const records = await gpaBuilder
+    .where('class', classPublicKey)
+    .get();
+```
+
+
+
+## Important Notes
+
+- All timestamps are stored as `bigint` values
+- The `discriminator` field is used internally and should not be modified
+- The `ownerType` field determines the type of entity that owns the record
+- Records can be frozen to prevent modifications
+- The `data` field contains serialized data that must be deserialized according to the class schema

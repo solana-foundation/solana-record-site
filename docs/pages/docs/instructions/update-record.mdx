@@ -1,0 +1,58 @@
+# Update Record
+
+Updates the data of an existing record while preserving its ownership and other properties.
+
+## Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `authority` | `Signer` | The record owner or class authority (for permissioned classes) |
+| `record` | `PublicKey \| Pda` | The record account to be updated |
+| `systemProgram?` | `PublicKey \| Pda` | Optional System Program account |
+| `class?` | `PublicKey \| Pda` | Optional class account of the record |
+| `data` | `string` | New serialized data for the record |
+
+## Returns
+
+Returns a `TransactionBuilder` that can be used to build and send the transaction.
+
+## Example
+
+```typescript
+import { updateRecord } from "srs-lib";
+
+const transaction = updateRecord(context, {
+    authority: authority,
+    record: recordPublicKey,
+    systemProgram: systemProgramPublicKey,
+    class: classPublicKey, // Optional, but recommended for permissioned classes
+    data: JSON.stringify({
+        title: "Updated Record Title",
+        description: "Updated record description",
+        // Additional data fields conforming to the class schema
+    })
+});
+
+// Send the transaction
+await transaction.sendAndConfirm();
+```
+
+## Important Notes
+
+- The authority must be either the record owner or the class authority (for permissioned classes)
+- The record must not be frozen
+- The new data must conform to the schema defined in the record's class
+- The data must be properly serialized
+- The record's ownership and expiration remain unchanged
+- For permissioned classes, providing the class account is recommended to ensure proper authority verification
+- This operation can be performed multiple times
+- The data update is permanent and cannot be undone
+
+## Related
+
+- [Records Documentation](../records)
+- [Classes Documentation](../classes)
+- [Create Record](./create-record)
+- [Freeze Record](./freeze-record)
+- [Delete Record](./delete-record)
+- [System Program Documentation](https://docs.solana.com/developing/runtime-facilities/programs#system-program) 
